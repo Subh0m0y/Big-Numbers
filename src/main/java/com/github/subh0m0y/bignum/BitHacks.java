@@ -6,10 +6,13 @@ package com.github.subh0m0y.bignum;
  */
 class BitHacks {
     static int bits(final int[] a) {
+        if (a.length == 0) {
+            return 0;
+        }
         // Find the location of the first non-zero byte
         int n = a.length - 1;
         while (a[n] == 0) {
-            n++;
+            n--;
         }
         // n is now the index of the highest non-zero int
         // in the array. It is also equal to the number of

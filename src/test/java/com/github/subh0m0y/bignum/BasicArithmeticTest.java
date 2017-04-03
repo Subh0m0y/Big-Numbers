@@ -27,11 +27,11 @@ public class BasicArithmeticTest {
     @Test
     public void testAdd() throws Exception {
         BigInteger c = a.add(b);
-        int[] A = Conversion.fromBytes(a.toByteArray());
-        int[] B = Conversion.fromBytes(b.toByteArray());
-        int[] C = new int[Math.max(A.length, B.length) + 1];
-        BasicArithmetic.add(A, B, C);
-        assertEquals(c.toString(16), Conversion.toHexString(C));
+        int[] arrayA = Conversion.fromBytes(a.toByteArray());
+        int[] arrayB = Conversion.fromBytes(b.toByteArray());
+        int[] arrayC = new int[Math.max(arrayA.length, arrayB.length) + 1];
+        BasicArithmetic.add(arrayA, arrayB, arrayC);
+        assertEquals(c.toString(16), Conversion.toHexString(arrayC));
     }
 
     @Test
@@ -43,53 +43,53 @@ public class BasicArithmeticTest {
             b = temp;
         }
         BigInteger c = a.subtract(b);
-        int[] A = Conversion.fromBytes(a.toByteArray());
-        int[] B = Conversion.fromBytes(b.toByteArray());
-        int[] C = new int[Math.max(A.length, B.length)];
-        BasicArithmetic.subtract(A, B, C);
-        assertEquals(c.toString(16), Conversion.toHexString(C));
+        int[] arrayA = Conversion.fromBytes(a.toByteArray());
+        int[] arrayB = Conversion.fromBytes(b.toByteArray());
+        int[] arrayC = new int[Math.max(arrayA.length, arrayB.length)];
+        BasicArithmetic.subtract(arrayA, arrayB, arrayC);
+        assertEquals(c.toString(16), Conversion.toHexString(arrayC));
     }
 
     @Test
     public void testAddWord() throws Exception {
         // For a
-        int[] A = Conversion.fromBytes(a.toByteArray());
-        int[] C = new int[A.length + 1];
+        int[] arrayA = Conversion.fromBytes(a.toByteArray());
+        int[] arrayC = new int[arrayA.length + 1];
         int word = random.nextInt();
         BigInteger value = BigInteger.valueOf(word & 0xFFFFFFFFL);
         BigInteger c = a.add(value);
-        BasicArithmetic.addWord(A, word, C);
-        assertEquals(c.toString(16), Conversion.toHexString(C));
+        BasicArithmetic.addWord(arrayA, word, arrayC);
+        assertEquals(c.toString(16), Conversion.toHexString(arrayC));
         // For b
-        int[] B = Conversion.fromBytes(b.toByteArray());
-        C = new int[B.length + 1];
+        int[] arrayB = Conversion.fromBytes(b.toByteArray());
+        arrayC = new int[arrayB.length + 1];
         word = random.nextInt();
         value = BigInteger.valueOf(word & 0xFFFFFFFFL);
         c = b.add(value);
-        BasicArithmetic.addWord(B, word, C);
-        assertEquals(c.toString(16), Conversion.toHexString(C));
+        BasicArithmetic.addWord(arrayB, word, arrayC);
+        assertEquals(c.toString(16), Conversion.toHexString(arrayC));
     }
 
     @Test
     public void testMultiplyWord() throws Exception {
         // For a
-        int[] A = Conversion.fromBytes(a.toByteArray());
-        int[] C = new int[A.length + 1];
+        int[] arrayA = Conversion.fromBytes(a.toByteArray());
+        int[] arrayC = new int[arrayA.length + 1];
         int word = random.nextInt();
         BigInteger value = BigInteger.valueOf(word & 0xFFFFFFFFL);
         BigInteger c = a.multiply(value);
-        BasicArithmetic.multiplyWord(A, word, C);
-        assertEquals(c.toByteArray(), Conversion.toBytes(C));
-        assertEquals(c.toString(16), Conversion.toHexString(C));
+        BasicArithmetic.multiplyWord(arrayA, word, arrayC);
+        assertEquals(c.toByteArray(), Conversion.toBytes(arrayC));
+        assertEquals(c.toString(16), Conversion.toHexString(arrayC));
         // For b
         int[] B = Conversion.fromBytes(b.toByteArray());
-        C = new int[B.length + 1];
+        arrayC = new int[B.length + 1];
         word = random.nextInt();
         value = BigInteger.valueOf(word & 0xFFFFFFFFL);
         c = b.multiply(value);
-        BasicArithmetic.multiplyWord(B, word, C);
-        assertEquals(c.toByteArray(), Conversion.toBytes(C));
-        assertEquals(c.toString(16), Conversion.toHexString(C));
+        BasicArithmetic.multiplyWord(B, word, arrayC);
+        assertEquals(c.toByteArray(), Conversion.toBytes(arrayC));
+        assertEquals(c.toString(16), Conversion.toHexString(arrayC));
     }
 
     @Test

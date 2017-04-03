@@ -35,7 +35,7 @@ class Conversion {
     static int[] fromBytes(final byte[] bytes) {
         // Skip over the leading zeroes
         int zeroPosition = 0;
-        while (bytes[zeroPosition] == 0) {
+        while (zeroPosition < bytes.length && bytes[zeroPosition] == 0) {
             zeroPosition++;
         }
         int n = bytes.length - zeroPosition;
@@ -100,6 +100,9 @@ class Conversion {
      * @return The hexadecimal representation of a.
      */
     static String toHexString(final int[] a) {
+        if (a.length == 0) {
+            return "";
+        }
         int index = a.length - 1;
         // Create enough room for the hexadecimal representation.
         StringBuilder builder = new StringBuilder(
@@ -123,30 +126,31 @@ class Conversion {
         return builder.toString();
     }
 
+    /**
+     * Extracts a number (an int array in Little Endian format) from
+     * a given String containing a hexadecimal representation.
+     *
+     * @param hexString The hexadecimal representation.
+     * @return The required number array.
+     */
     static int[] fromHexString(final String hexString) {
-        // Similar to the method used for the bytes
+        // Delegate to fromBytes
         char[] chars = hexString.toCharArray();
-        int n = chars.length;
-        // skip over the '0' chars, if any
-        while ("0 ".indexOf(chars[chars.length - n]) > -1) {
-            n--;
+        byte[] bytes = new byte[(chars.length + 1) >>> 1];
+        int i = 0, index = 0;
+        // If there's a leading single character, take it
+        // in a single byte.
+        if (chars.length % 2 == 1) {
+            bytes[i++] = (byte) (Character.digit(chars[index++], 16));
         }
-        // Estimate the size needed. We will need 1/8 of the
-        // space because the maximum value for any char will be 'f'
-        // which is `1111', i.e. 4 bits. There are 8 nibbles (4-bit
-        // chunks) in an int
-        int len = (n + 7) >>> 3;
-        int[] a = new int[len];
-        // From the end of the char array
-        int c = n - 1;
-        for (int i = 0; i < len; i++) {
-            int throughput = n >= 8 ? 8 : n;
-            n -= throughput;
-            final int limit = throughput << 2;
-            for (int offset = 0; offset < limit; offset += 4) {
-                a[i] += Character.digit(chars[c--], 16) << offset;
-            }
+        // Now all the pairs of characters evenly match up
+        while (index < chars.length) {
+            int digit1 = Character.digit(chars[index++], 16);
+            int digit2 = index < chars.length
+                    ? Character.digit(chars[index++], 16)
+                    : 0;
+            bytes[i++] = (byte) ((digit1 << 4) + digit2);
         }
-        return a;
+        return fromBytes(bytes);
     }
 }
