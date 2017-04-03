@@ -78,8 +78,6 @@ public class BasicArithmeticTest {
         int word = random.nextInt();
         BigInteger value = BigInteger.valueOf(word & 0xFFFFFFFFL);
         BigInteger c = a.multiply(value);
-        System.out.println(value.toString(16));
-        System.out.printf("%08x\n", word & 0xFFFFFFFFL);
         BasicArithmetic.multiplyWord(A, word, C);
         assertEquals(c.toByteArray(), Conversion.toBytes(C));
         assertEquals(c.toString(16), Conversion.toHexString(C));

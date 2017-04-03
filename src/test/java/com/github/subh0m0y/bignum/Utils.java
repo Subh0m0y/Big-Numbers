@@ -8,11 +8,11 @@ import java.util.Random;
  */
 class Utils {
     // Stress-testing constants
-//    private static final int MEAN = 1_000_000;
-//    private static final int DEV = 5000;
+    private static final int MEAN = 1_000_000;
+    private static final int DEV = 5000;
     // Debugging constants
-    private static final int MEAN = 100000;
-    private static final int DEV = 1;
+//    private static final int MEAN = 128;
+//    private static final int DEV = 1;
 
     static int getRandomBitSize(final Random random) {
         int dev = random.nextInt(DEV);

@@ -48,25 +48,24 @@ class Conversion {
      */
     static int[] fromBytes(final byte[] bytes) {
         // Skip over the leading zeroes
-        int n = bytes.length;
-        while (bytes[bytes.length - n] == 0) {
-            n--;
+        int zeroPosition = 0;
+        while (bytes[zeroPosition] == 0) {
+            zeroPosition++;
         }
-        // n now holds the "effective size" of the byte array
+        int n = bytes.length - zeroPosition;
         // Approximate the number of ints we'll need
         int len = (n + 3) >>> 2;
         int[] a = new int[len];
         // b holds the index of the byte being currently being processed
-        int b = n - 1;
+        int b = bytes.length - 1;
         // Start copying from the end of the byte array from the end
-        for (int i = 0; i < len && n > 0; i++) {
+        for (int i = 0; i < len; i++) {
             // Process a maximum of 4 bytes at a time
             int throughput = n >= 4 ? 4 : n;
             n -= throughput;
-            final int limit = throughput << 3;
-            for (int offset = 0; offset < limit; offset += Byte.SIZE) {
+            for (int offset = 0; offset < throughput; offset++) {
                 // Add the byte to the int with the appropriate offset
-                a[i] += (bytes[b--] & 0xFF) << offset;
+                a[i] += (bytes[b--] & 0xFF) << (offset * 8);
             }
         }
         return a;

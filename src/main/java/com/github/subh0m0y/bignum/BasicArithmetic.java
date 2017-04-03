@@ -20,7 +20,7 @@ class BasicArithmetic {
      * Without this, the system would try to work with negative
      * numbers, which is not desirable in this case.
      */
-    static final long INT_SATURATED = 0xFFFFFFFFL;
+    private static final long INT_SATURATED = 0xFFFFFFFFL;
 
     /**
      * This is the "base of all operations". Literally.

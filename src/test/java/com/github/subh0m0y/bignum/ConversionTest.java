@@ -20,13 +20,16 @@ public class ConversionTest {
     public void setUp() throws Exception {
         Random random = new Random();
         a = new BigInteger(Utils.getRandomBitSize(random), random);
+        if (a.signum() < 0) {
+            a = a.negate();
+        }
     }
 
     @Test
     public void testFromBytesAndToHexString() throws Exception {
         int[] A = Conversion.fromBytes(a.toByteArray());
-        System.out.println(a.toString(16));
-        System.out.println(Conversion.toHexString(A));
+//        System.out.println(a.toString(16));
+//        System.out.println(Conversion.toHexString(A));
         assertEquals(Conversion.toHexString(A), a.toString(16));
     }
 
