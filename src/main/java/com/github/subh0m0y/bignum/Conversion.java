@@ -18,20 +18,6 @@ import java.math.BigInteger;
 class Conversion {
 
     /**
-     * A package-private function used for displaying the contents of
-     * the arrays in hexadecimal format. Useful for debugging
-     * purposes.
-     *
-     * @param num The "number" to print.
-     */
-    static void display(final int[] num) {
-        for (int i = num.length - 1; i >= 0; i--) {
-            System.out.printf("%08x ", num[i]);
-        }
-        System.out.println();
-    }
-
-    /**
      * This takes a byte array in Big-Endian format and converts
      * them into a Little-Endian int array for convenience of use
      * internally. This reversal of order must be taken care of
