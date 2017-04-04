@@ -51,7 +51,7 @@ class Conversion {
             n -= throughput;
             for (int offset = 0; offset < throughput; offset++) {
                 // Add the byte to the int with the appropriate offset
-                a[i] += (bytes[b--] & 0xFF) << (offset * 8);
+                a[i] |= (bytes[b--] & 0xFF) << (offset * 8);
             }
         }
         return a;
@@ -109,8 +109,11 @@ class Conversion {
                 a.length << 3
         );
         // Skip the leading zeroes
-        while (a[index] == 0) {
+        while (index >= 0 && a[index] == 0) {
             index--;
+        }
+        if (index == -1) {
+            return "0";
         }
         // Append the first int, which maybe shorter than 8 bytes
         if (index >= 0) {
@@ -149,7 +152,7 @@ class Conversion {
             int digit2 = index < chars.length
                     ? Character.digit(chars[index++], 16)
                     : 0;
-            bytes[i++] = (byte) ((digit1 << 4) + digit2);
+            bytes[i++] = (byte) ((digit1 << 4) | digit2);
         }
         return fromBytes(bytes);
     }

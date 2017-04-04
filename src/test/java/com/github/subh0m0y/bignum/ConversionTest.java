@@ -4,7 +4,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.Random;
 
 import static org.testng.Assert.*;
@@ -14,30 +13,37 @@ import static org.testng.Assert.*;
  * @version 1.0
  */
 public class ConversionTest {
-    private BigInteger bigInteger;
+    private BigInteger[] bigIntegers;
 
     @BeforeMethod
     public void setUp() throws Exception {
         Random random = new Random();
-        bigInteger = new BigInteger(Utils.getRandomBitSize(random), random);
-        if (bigInteger.signum() < 0) {
-            bigInteger = bigInteger.negate();
+        bigIntegers = new BigInteger[Helper.SIZE];
+        for (int i = 0; i < Helper.SIZE; i++) {
+            bigIntegers[i] = new BigInteger(Helper.getRandomBitSize(random), random);
+            if (bigIntegers[i].signum() < 0) {
+                bigIntegers[i] = bigIntegers[i].negate();
+            }
         }
     }
 
     @Test
     public void testFromBytesAndToHexString() throws Exception {
-        int[] number = Conversion.fromBytes(bigInteger.toByteArray());
-        assertEquals(Conversion.toHexString(number), bigInteger.toString(16));
+        for (int i = 0; i < Helper.SIZE; i++) {
+            int[] number = Conversion.fromBytes(bigIntegers[i].toByteArray());
+            assertEquals(Conversion.toHexString(number), bigIntegers[i].toString(16));
+        }
     }
 
     @Test
     public void testFromHexStringAndToBytes() throws Exception {
-//        System.out.println(bigInteger.toString(16));
-        int[] array = Conversion.fromHexString(bigInteger.toString(16));
+        for (int i = 0; i < Helper.SIZE; i++) {
+//        System.out.println(bigIntegers.toString(16));
+            int[] array = Conversion.fromHexString(bigIntegers[i].toString(16));
 //        System.out.println(Conversion.toHexString(array));
-//        System.out.println(Arrays.toString(bigInteger.toByteArray()));
+//        System.out.println(Arrays.toString(bigIntegers.toByteArray()));
 //        System.out.println(Arrays.toString(Conversion.toBytes(array)));
-        assertEquals(Conversion.toBytes(array), bigInteger.toByteArray());
+            assertEquals(Conversion.toBytes(array), bigIntegers[i].toByteArray());
+        }
     }
 }

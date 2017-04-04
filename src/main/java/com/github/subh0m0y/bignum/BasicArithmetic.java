@@ -20,7 +20,7 @@ class BasicArithmetic {
      * Without this, the system would try to work with negative
      * numbers, which is not desirable in this case.
      */
-    private static final long INT_SATURATED = 0xFFFFFFFFL;
+    static final long INT_SATURATED = 0xFFFFFFFFL;
 
     /**
      * This is the "base of all operations". Literally.
@@ -49,7 +49,7 @@ class BasicArithmetic {
             long B = index < b0.length ? b0[index] & INT_SATURATED : 0;
             long sum = A + B + carry;
             carry = sum >>> Integer.SIZE;
-            c[index++] = (int) (sum & INT_SATURATED);
+            c[index++] = (int) sum;
         }
         if (carry != 0) {
             c[index] = (int) carry;
@@ -76,7 +76,7 @@ class BasicArithmetic {
             B += borrow ? 1 : 0;
             long diff = borrow ? RADIX + A - B : A - B;
             borrow = A < B || borrow && A == B;
-            c[index] = (int) (diff & INT_SATURATED);
+            c[index] = (int) diff;
         }
     }
 
@@ -92,7 +92,7 @@ class BasicArithmetic {
         int index = 0;
         while (index < a.length) {
             long sum = (a[index] & INT_SATURATED) + word;
-            c[index] = (int) (sum & INT_SATURATED);
+            c[index] = (int) sum;
             word = sum >>> Integer.SIZE;
             index++;
         }
@@ -118,7 +118,7 @@ class BasicArithmetic {
         while (index < a.length) {
             long A = a[index] & INT_SATURATED;
             long partial = (A * multiplier) + carry;
-            c[index] = (int) (partial & INT_SATURATED);
+            c[index] = (int) partial;
             carry = partial >>> Integer.SIZE;
             index++;
         }
@@ -149,7 +149,7 @@ class BasicArithmetic {
                 long partial = (a[index] & INT_SATURATED) * multiplier
                         + carry
                         + (c[index + j] & INT_SATURATED);
-                c[index + j] = (int) (partial & INT_SATURATED);
+                c[index + j] = (int) partial;
                 carry = partial >>> Integer.SIZE;
                 index++;
             }
